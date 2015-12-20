@@ -37,7 +37,7 @@ function! GetSelectedTextForSubstitute() range
     return escaped_selection
 endfunction
 
-function! GetSelectedTextForAck() range
+function! GetSelectedTextForSearch() range
     let selection = GetSelectedText()
 
     " Escape some characters
@@ -50,7 +50,7 @@ function! GetSelectedTextForAck() range
     endif
 endfunction
 
-function! GetWordForAck() range
+function! GetWordForSearch() range
     let cword = expand("<cword>")
 
     if empty(cword)
@@ -70,4 +70,4 @@ function! GetWordForSubstitute()
     endif
 endfunction
 
-let g:loaded_search_helpers = '0.1.0'
+let g:loaded_search_helpers = '0.2.0'
