@@ -4,5 +4,6 @@ This plugin defines the following functions for manipulating text for search and
 
 * GetSelectedTextForSubstitute()
 * GetSelectedTextForSearch()
+* GetSelectedTextForGrepper()
 * GetWordForSearch()
 * GetWordForSubstitute()

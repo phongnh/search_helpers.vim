@@ -50,6 +50,19 @@ function! GetSelectedTextForSearch() range
     endif
 endfunction
 
+function! GetSelectedTextForGrepper() range
+    let selection = s:GetSelectedText()
+
+    " Escape some characters
+    let escaped_selection = escape(selection, "'%#*$")
+
+    if empty(escaped_selection)
+        return ""
+    else
+        return "'" . escaped_selection . "'"
+    endif
+endfunction
+
 function! GetWordForSearch() range
     let cword = expand("<cword>")
 
@@ -70,4 +83,4 @@ function! GetWordForSubstitute()
     endif
 endfunction
 
-let g:loaded_search_helpers = '0.3.0'
+let g:loaded_search_helpers = '0.4.0'
