@@ -2,7 +2,7 @@ if exists('g:loaded_search_helpers')
     finish
 endif
 
-function! s:GetSelectedText() range
+function! GetSelectedText() range
     " Save the current register and clipboard
     let reg_save     = getreg('"')
     let regtype_save = getregtype('"')
@@ -26,7 +26,7 @@ function! s:GetSelectedText() range
 endfunction
 
 function! GetSelectedTextForSubstitute() range
-    let selection = s:GetSelectedText()
+    let selection = GetSelectedText()
 
     " Escape regex characters
     let escaped_selection = escape(selection, '^$.*\/~[]')
@@ -38,7 +38,7 @@ function! GetSelectedTextForSubstitute() range
 endfunction
 
 function! GetSelectedTextForSearch() range
-    let selection = s:GetSelectedText()
+    let selection = GetSelectedText()
 
     " Escape some characters
     let escaped_selection = escape(selection, '"%#*$')
@@ -51,7 +51,7 @@ function! GetSelectedTextForSearch() range
 endfunction
 
 function! GetSelectedTextForGrepper() range
-    let selection = s:GetSelectedText()
+    let selection = GetSelectedText()
 
     " Escape some characters
     let escaped_selection = escape(selection, "'%#*$")
@@ -83,4 +83,4 @@ function! GetWordForSubstitute()
     endif
 endfunction
 
-let g:loaded_search_helpers = '0.4.0'
+let g:loaded_search_helpers = '0.5.0'
