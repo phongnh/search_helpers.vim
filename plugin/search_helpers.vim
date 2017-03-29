@@ -2,7 +2,7 @@ if exists('g:loaded_search_helpers')
     finish
 endif
 
-function! GetSelectedText() range
+function! GetSelectedText() range abort
     " Save the current register and clipboard
     let reg_save     = getreg('"')
     let regtype_save = getregtype('"')
@@ -25,7 +25,7 @@ function! GetSelectedText() range
     endif
 endfunction
 
-function! GetSelectedTextForSubstitute() range
+function! GetSelectedTextForSubstitute() range abort
     let selection = GetSelectedText()
 
     " Escape regex characters
@@ -37,7 +37,7 @@ function! GetSelectedTextForSubstitute() range
     return escaped_selection
 endfunction
 
-function! GetSelectedTextForSearch() range
+function! GetSelectedTextForSearch() range abort
     let selection = GetSelectedText()
 
     " Escape some characters
@@ -50,7 +50,7 @@ function! GetSelectedTextForSearch() range
     endif
 endfunction
 
-function! GetSelectedTextForGrepper() range
+function! GetSelectedTextForGrepper() range abort
     let selection = GetSelectedText()
 
     " Escape some characters
@@ -63,7 +63,7 @@ function! GetSelectedTextForGrepper() range
     endif
 endfunction
 
-function! GetWordForSearch() range
+function! GetWordForSearch() range abort
     let cword = expand("<cword>")
 
     if empty(cword)
@@ -73,7 +73,7 @@ function! GetWordForSearch() range
     endif
 endfunction
 
-function! GetWordForSubstitute()
+function! GetWordForSubstitute() abort
     let cword = expand("<cword>")
 
     if empty(cword)
@@ -83,4 +83,37 @@ function! GetWordForSubstitute()
     endif
 endfunction
 
-let g:loaded_search_helpers = '0.5.0'
+function! s:GetSearchText() abort
+    " Save the current register and clipboard
+    let reg_save     = getreg('/')
+    let regtype_save = getregtype('/')
+    let cb_save      = &clipboard
+    set clipboard&
+
+    let selection = getreg('/')
+
+    " Put the saved registers and clipboards back
+    call setreg('"', reg_save, regtype_save)
+    let &clipboard = cb_save
+
+    if selection ==# "\n"
+        return ""
+    else
+        return selection
+    endif
+endfunction
+
+function! GetSearchTextForGrepper() range abort
+    let selection = s:GetSearchText()
+
+    " Escape some characters
+    let escaped_selection = escape(selection, "'%#*$")
+
+    if empty(escaped_selection)
+        return ""
+    else
+        return "'" . escaped_selection . "'"
+    endif
+endfunction
+
+let g:loaded_search_helpers = '0.6.0'
