@@ -116,4 +116,17 @@ function! GetSearchTextForGrepper() range abort
     endif
 endfunction
 
-let g:loaded_search_helpers = '0.6.0'
+function! GetSearchTextForCtrlSF() range abort
+    let selection = s:GetSearchText()
+
+    " Escape some characters
+    let escaped_selection = escape(selection, '"%#*$')
+
+    if empty(escaped_selection)
+        return ""
+    else
+        return '"' . escaped_selection . '"'
+    endif
+endfunction
+
+let g:loaded_search_helpers = '0.7.0'
