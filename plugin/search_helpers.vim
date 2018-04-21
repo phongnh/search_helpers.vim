@@ -19,7 +19,7 @@ function! GetSelectedText() range abort
     let &clipboard = cb_save
 
     if selection ==# "\n"
-        return ""
+        return ''
     else
         return selection
     endif
@@ -37,11 +37,11 @@ function! GetSelectedTextForSubstitute() range abort
     return escaped_selection
 endfunction
 
-function! GetSelectedTextForGrepper() range abort
+function! GetSelectedTextForAg() range abort
     let selection = GetSelectedText()
 
     if empty(selection)
-        return ""
+        return ''
     endif
 
     " Escape some characters
@@ -49,21 +49,23 @@ function! GetSelectedTextForGrepper() range abort
     return shellescape(escaped_selection)
 endfunction
 
-function! GetWordForSubstitute() abort
-    let cword = expand("<cword>")
+function! GetSelectedTextForGrepper() range abort
+    let selection = GetSelectedText()
 
-    if empty(cword)
-        return ""
-    else
-        return cword . '/'
+    if empty(selection)
+        return ''
     endif
+
+    " Escape some characters
+    let escaped_selection = escape(selection, '\^$.*+?()[]{}|')
+    return shellescape(escaped_selection)
 endfunction
 
 function! GetSearchTextForCtrlSF() range abort
     let selection = @/
 
     if selection ==# "\n" || empty(selection)
-        return ""
+        return ''
     endif
 
     " Escape some characters
@@ -71,4 +73,14 @@ function! GetSearchTextForCtrlSF() range abort
     return '"' . escaped_selection . '"'
 endfunction
 
-let g:loaded_search_helpers = '0.8.0'
+function! GetWordForSubstitute() abort
+    let cword = expand("<cword>")
+
+    if empty(cword)
+        return ''
+    else
+        return cword . '/'
+    endif
+endfunction
+
+let g:loaded_search_helpers = '0.9.0'
