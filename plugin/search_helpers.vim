@@ -39,6 +39,8 @@ endfunction
 
 function! GetSelectedTextForAg() range abort
     let selection = GetSelectedText()
+    let selection = substitute(selection, '^\n\+', '', 'g')
+    let selection = substitute(selection, '\n\+$', '', 'g')
 
     if empty(selection)
         return ''
@@ -51,6 +53,8 @@ endfunction
 
 function! GetSelectedTextForGrepper() range abort
     let selection = GetSelectedText()
+    let selection = substitute(selection, '^\n\+', '', 'g')
+    let selection = substitute(selection, '\n\+$', '', 'g')
 
     if empty(selection)
         return ''
