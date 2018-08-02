@@ -51,6 +51,20 @@ function! GetSelectedTextForAg() range abort
     return shellescape(escaped_selection)
 endfunction
 
+function! GetSearchTextForAg() range abort
+    let selection = GetSelectedText()
+    let selection = substitute(selection, '^\n\+', '', 'g')
+    let selection = substitute(selection, '\n\+$', '', 'g')
+
+    if empty(selection)
+        return ''
+    endif
+
+    " Escape some characters
+    let escaped_selection = escape(selection, '\^$.*+?()[]{}|')
+    return shellescape(escaped_selection)
+endfunction
+
 function! GetSelectedTextForGrepper() range abort
     let selection = GetSelectedText()
     let selection = substitute(selection, '^\n\+', '', 'g')
@@ -63,6 +77,18 @@ function! GetSelectedTextForGrepper() range abort
     " Escape some characters
     let escaped_selection = escape(selection, '\^$.*+?()[]{}|')
     return shellescape(escaped_selection)
+endfunction
+
+function! GetSearchTextForGrepper() range abort
+    let selection = @/
+
+    if selection ==# "\n" || empty(selection)
+        return ''
+    endif
+
+    " Escape some characters
+    let escaped_selection = escape(selection, '\^$.*+?()[]{}|')
+    return '"' . escaped_selection . '"'
 endfunction
 
 function! GetSearchTextForCtrlSF() range abort
@@ -87,4 +113,4 @@ function! GetWordForSubstitute() abort
     endif
 endfunction
 
-let g:loaded_search_helpers = '0.9.0'
+let g:loaded_search_helpers = '0.10.0'
